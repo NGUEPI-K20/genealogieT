@@ -240,10 +240,20 @@ export async function getPersonById(id: string): Promise<Person | null> {
 
 // ─── UPLOAD PHOTO ────────────────────────────────────────────────────────────
 
+const MAX_PHOTO_SIZE = 5 * 1024 * 1024 // 5 Mo
+const ALLOWED_PHOTO_TYPES = ['image/jpeg', 'image/png', 'image/webp']
+
 export async function uploadPhoto(
   personId: string,
   file: File
 ): Promise<ActionResult & { url?: string }> {
+  if (!ALLOWED_PHOTO_TYPES.includes(file.type)) {
+    return { success: false, error: 'Format non supporté. Utilisez JPG, PNG ou WebP.' }
+  }
+  if (file.size > MAX_PHOTO_SIZE) {
+    return { success: false, error: 'Photo trop lourde (5 Mo maximum).' }
+  }
+
   const supabase = await createClient()
 
   const ext = file.name.split('.').pop()
@@ -254,7 +264,8 @@ export async function uploadPhoto(
     .upload(path, file, { upsert: true })
 
   if (uploadError) {
-    return { success: false, error: 'Erreur upload photo.' }
+    console.error('[uploadPhoto] storage upload failed', personId, uploadError.message)
+    return { success: false, error: `Erreur upload photo: ${uploadError.message}` }
   }
 
   const { data: { publicUrl } } = supabase.storage
@@ -267,7 +278,8 @@ export async function uploadPhoto(
     .eq('id', personId)
 
   if (updateError) {
-    return { success: false, error: 'Photo uploadée mais non liée.' }
+    console.error('[uploadPhoto] persons update failed', personId, updateError.message)
+    return { success: false, error: `Photo uploadée mais non liée: ${updateError.message}` }
   }
 
   revalidatePath('/')

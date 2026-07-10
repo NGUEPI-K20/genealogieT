@@ -281,27 +281,30 @@ export default function MemberFormClient({ allPersons, editPerson, action }: Pro
             <span className="text-[#C8922A] text-[0.8rem]">◻</span> Photo
           </div>
           <div className="p-4">
-            {editPerson?.photo_url ? (
-              <div className="text-center">
+            {editPerson?.photo_url && (
+              <div className="text-center mb-3">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={editPerson.photo_url}
                   alt={previewName}
-                  className="w-20 h-20 rounded-full mx-auto mb-3 object-cover border-2 border-[#2E2B25]"
+                  className="w-20 h-20 rounded-full mx-auto mb-2 object-cover border-2 border-[#2E2B25]"
                 />
                 <p className="font-mono text-[0.65rem] text-[#4A8B5A]">✓ Photo existante</p>
               </div>
-            ) : (
-              <label className="block border border-dashed border-[#3A3630] rounded-[3px] py-6 px-5 text-center cursor-pointer hover:border-[#8B6420] hover:bg-[rgba(200,146,42,0.04)] transition-all bg-[#1E1C18]">
-                <input type="file" name="photo" accept="image/*" className="hidden" />
-                <p className="text-xl mb-1.5">↑</p>
-                <p className="text-[0.75rem] text-[#7A7268] mb-1">Cliquer pour choisir</p>
-                <p className="font-mono text-[0.62rem] text-[#4A4640]">JPG, PNG · max 5 Mo</p>
-                <p className="font-mono text-[0.6rem] text-[#4A4640] mt-1 italic">
-                  Upload disponible après création
-                </p>
-              </label>
             )}
+            <label className="block border border-dashed border-[#3A3630] rounded-[3px] py-6 px-5 text-center cursor-pointer hover:border-[#8B6420] hover:bg-[rgba(200,146,42,0.04)] transition-all bg-[#1E1C18]">
+              <input type="file" name="photo" accept="image/jpeg,image/png,image/webp" className="hidden" />
+              <p className="text-xl mb-1.5">↑</p>
+              <p className="text-[0.75rem] text-[#7A7268] mb-1">
+                {editPerson?.photo_url ? 'Cliquer pour remplacer' : 'Cliquer pour choisir'}
+              </p>
+              <p className="font-mono text-[0.62rem] text-[#4A4640]">JPG, PNG, WebP · max 5 Mo</p>
+              {!isEdit && (
+                <p className="font-mono text-[0.6rem] text-[#4A4640] mt-1 italic">
+                  Uploadée juste après la création
+                </p>
+              )}
+            </label>
           </div>
         </div>
 

@@ -1,21 +1,39 @@
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
+import { PEOPLE } from '@/lib/data'
 import AdminLogout from '@/components/Admin/AdminLogout'
 
-const navItems = [
-  { href: '/admin', label: 'Tableau de bord', icon: '⊞' },
-  { href: '/admin/membres', label: 'Membres', icon: '◈', badge: '28' },
-  { href: '/admin/ajouter', label: 'Ajouter', icon: '＋' },
-  { href: '/admin/relations', label: 'Relations', icon: '⟋' },
-  { href: '/admin/settings', label: 'Paramètres', icon: '⚙' },
-]
+async function getMemberCount(): Promise<number> {
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL
+  if (!url || url.includes('xxxx')) return PEOPLE.length
+  try {
+    const supabase = await createClient()
+    const { count, error } = await supabase
+      .from('persons')
+      .select('id', { count: 'exact', head: true })
+    if (error || count === null) return PEOPLE.length
+    return count
+  } catch {
+    return PEOPLE.length
+  }
+}
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
 
   if (!user) redirect('/login')
+
+  const memberCount = await getMemberCount()
+
+  const navItems = [
+    { href: '/admin', label: 'Tableau de bord', icon: '⊞' },
+    { href: '/admin/membres', label: 'Membres', icon: '◈', badge: String(memberCount) },
+    { href: '/admin/ajouter', label: 'Ajouter', icon: '＋' },
+    { href: '/admin/relations', label: 'Relations', icon: '⟋' },
+    { href: '/admin/settings', label: 'Paramètres', icon: '⚙' },
+  ]
 
   return (
     <div className="flex h-screen bg-[#0E0D0B] text-[#E8E0D0]">

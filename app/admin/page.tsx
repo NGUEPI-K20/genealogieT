@@ -1,20 +1,73 @@
-import { PEOPLE, RELATIONS } from '@/lib/data'
+import { createClient } from '@/lib/supabase/server'
+import { PEOPLE } from '@/lib/data'
+import { Person } from '@/lib/types'
 
-const stats = [
-  { label: 'Membres', value: 28, delta: '+2 ce mois' },
-  { label: 'Générations', value: 5 },
-  { label: 'Vivants', value: 17, delta: '61%', deltaGreen: true },
-  { label: "Années d'histoire", value: 132 },
-]
+const GEN_LABELS = ['', 'I', 'II', 'III', 'IV', 'V']
 
-const activity = [
-  { type: 'add', text: 'Ajout de', name: 'Mia Vidal', sub: 'Gen. V', time: 'Il y a 3 jours' },
-  { type: 'edit', text: 'Biographie de', name: 'Élise Bertrand', sub: 'mise à jour', time: 'Il y a 5 jours' },
-  { type: 'add', text: 'Ajout de', name: 'Lucas Dumont', sub: 'Gen. IV', time: 'Il y a 2 semaines' },
-]
+async function getMembers(): Promise<Person[]> {
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL
+  if (!url || url.includes('xxxx')) return PEOPLE as Person[]
+  try {
+    const supabase = await createClient()
+    const { data, error } = await supabase.from('persons').select('*')
+    if (error) return PEOPLE as Person[]
+    return (data ?? []) as Person[]
+  } catch {
+    return PEOPLE as Person[]
+  }
+}
 
-export default function AdminDashboard() {
-  const recent = PEOPLE.slice(-5).reverse()
+function computeStats(people: Person[]) {
+  const alive = people.filter(p => !p.death_year).length
+  const generations = people.length > 0 ? Math.max(...people.map(p => p.generation)) : 0
+  const minYear = people.length > 0 ? Math.min(...people.map(p => p.birth_year)) : new Date().getFullYear()
+  const yearsOfHistory = new Date().getFullYear() - minYear
+
+  return [
+    { label: 'Membres', value: people.length },
+    { label: 'Générations', value: generations },
+    { label: 'Vivants', value: alive, delta: people.length > 0 ? `${Math.round((alive / people.length) * 100)}%` : undefined },
+    { label: "Années d'histoire", value: yearsOfHistory },
+  ]
+}
+
+function timeAgo(iso: string): string {
+  const diffMs = Date.now() - new Date(iso).getTime()
+  const days = Math.floor(diffMs / (1000 * 60 * 60 * 24))
+  if (days <= 0) return "Aujourd'hui"
+  if (days === 1) return 'Hier'
+  if (days < 14) return `Il y a ${days} jours`
+  if (days < 60) return `Il y a ${Math.floor(days / 7)} semaines`
+  return `Il y a ${Math.floor(days / 30)} mois`
+}
+
+function recentActivity(people: Person[]) {
+  return [...people]
+    .filter(p => p.created_at)
+    .sort((a, b) => new Date(b.updated_at ?? b.created_at!).getTime() - new Date(a.updated_at ?? a.created_at!).getTime())
+    .slice(0, 5)
+    .map(p => {
+      const isEdit = p.updated_at && p.created_at && p.updated_at !== p.created_at
+      return {
+        type: isEdit ? 'edit' : 'add',
+        text: isEdit ? 'Mise à jour de' : 'Ajout de',
+        name: `${p.first_name} ${p.last_name}`,
+        sub: `Gen. ${GEN_LABELS[p.generation]}`,
+        time: timeAgo(p.updated_at ?? p.created_at!),
+      }
+    })
+}
+
+export default async function AdminDashboard() {
+  const members = await getMembers()
+  const stats = computeStats(members)
+  const activity = recentActivity(members)
+
+  const recent = members
+    .map((m, i) => ({ m, key: m.created_at ? new Date(m.created_at).getTime() : i }))
+    .sort((a, b) => b.key - a.key)
+    .slice(0, 5)
+    .map(({ m }) => m)
 
   return (
     <div>
@@ -26,7 +79,7 @@ export default function AdminDashboard() {
             <p className="font-playfair text-4xl text-[#E8E0D0] leading-none mb-1.5">{s.value}</p>
             <p className="font-mono text-[0.68rem] tracking-[0.15em] uppercase text-[#7A7268]">{s.label}</p>
             {s.delta && (
-              <p className={`absolute top-5 right-5 font-mono text-[0.7rem] ${s.deltaGreen ? 'text-[#4A8B5A]' : 'text-[#4A8B5A]'}`}>
+              <p className="absolute top-5 right-5 font-mono text-[0.7rem] text-[#4A8B5A]">
                 {s.delta}
               </p>
             )}
@@ -69,7 +122,7 @@ export default function AdminDashboard() {
                   </td>
                   <td className="px-4 py-3 border-b border-[#2E2B25]">
                     <span className="bg-[rgba(200,146,42,0.1)] text-[#C8922A] border border-[rgba(200,146,42,0.2)] font-mono text-[0.62rem] px-2 py-0.5 rounded-sm">
-                      Gen. {['','I','II','III','IV','V'][m.generation]}
+                      Gen. {GEN_LABELS[m.generation]}
                     </span>
                   </td>
                   <td className="px-4 py-3 border-b border-[#2E2B25]">
@@ -82,6 +135,13 @@ export default function AdminDashboard() {
                   </td>
                 </tr>
               ))}
+              {recent.length === 0 && (
+                <tr>
+                  <td colSpan={4} className="px-4 py-8 text-center font-mono text-[0.75rem] text-[#4A4640]">
+                    Aucun membre
+                  </td>
+                </tr>
+              )}
             </tbody>
           </table>
         </div>
@@ -103,6 +163,11 @@ export default function AdminDashboard() {
                 </div>
               </div>
             ))}
+            {activity.length === 0 && (
+              <p className="px-5 py-8 text-center font-mono text-[0.72rem] text-[#4A4640]">
+                Aucune activité récente
+              </p>
+            )}
           </div>
         </div>
       </div>

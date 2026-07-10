@@ -1,6 +1,6 @@
 import { createClient } from '@/lib/supabase/server'
 import { Person } from '@/lib/types'
-import { createPerson, updatePerson, getPersonById } from '@/lib/actions/persons'
+import { createPerson, updatePerson, getPersonById, uploadPhoto } from '@/lib/actions/persons'
 import { redirect } from 'next/navigation'
 import MemberFormClient from './MemberFormClient'
 
@@ -37,9 +37,27 @@ export default async function AjouterPage({ searchParams }: PageProps) {
       ? await updatePerson(formData)
       : await createPerson(formData)
 
-    if (result.success) {
-      redirect('/admin/membres')
+    if (!result.success) {
+      throw new Error(result.error)
     }
+
+    const photo = formData.get('photo')
+    if (photo instanceof File && photo.size > 0) {
+      const personId = isEdit
+        ? (formData.get('id') as string | null)
+        : (result.id ?? null)
+
+      if (!personId) {
+        throw new Error('Impossible de déterminer le membre pour la photo.')
+      }
+
+      const uploadResult = await uploadPhoto(personId, photo)
+      if (!uploadResult.success) {
+        throw new Error(uploadResult.error)
+      }
+    }
+
+    redirect('/admin/membres')
   }
 
   return (
