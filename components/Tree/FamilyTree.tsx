@@ -84,7 +84,8 @@ export default function FamilyTree({ people, relations }: FamilyTreeProps) {
         const otherId = r.person_a_id === selectedPerson.id ? r.person_b_id : r.person_a_id
         return people.find(p => p.id === otherId)
       })
-      .filter(Boolean) as Person[]
+      .filter(Boolean)
+      .sort((a, b) => (a!.birth_year ?? 0) - (b!.birth_year ?? 0)) as Person[]
   }, [selectedPerson, relations, people])
 
   return (

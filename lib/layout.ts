@@ -98,9 +98,10 @@ export function computeLayout(
       // génération précédente) est placée au centre de l'unité, les
       // conjoint(e)s de part et d'autre.
       const anchorIndex = members.findIndex(m => (parentsOf.get(m.id) ?? []).length > 0)
-      if (anchorIndex > 0) {
+      const targetIndex = Math.floor((members.length - 1) / 2)
+      if (anchorIndex !== -1 && members.length > 1 && anchorIndex !== targetIndex) {
         const [anchor] = members.splice(anchorIndex, 1)
-        members.splice(Math.floor(members.length / 2), 0, anchor)
+        members.splice(targetIndex, 0, anchor)
       }
 
       members.forEach(m => placed.add(m.id))
