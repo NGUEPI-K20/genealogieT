@@ -1,6 +1,11 @@
 import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
 
+// Évite que le middleware ne reste bloqué (et fasse tomber tout /admin)
+// si Supabase est injoignable ou en pause — on considère l'utilisateur
+// non authentifié passé ce délai plutôt que d'attendre indéfiniment.
+const AUTH_CHECK_TIMEOUT_MS = 8000
+
 export async function updateSession(request: NextRequest) {
   let supabaseResponse = NextResponse.next({ request })
 
@@ -25,9 +30,13 @@ export async function updateSession(request: NextRequest) {
     }
   )
 
+  const timeout = new Promise<{ data: { user: null } }>(resolve =>
+    setTimeout(() => resolve({ data: { user: null } }), AUTH_CHECK_TIMEOUT_MS)
+  )
+
   const {
     data: { user },
-  } = await supabase.auth.getUser()
+  } = await Promise.race([supabase.auth.getUser(), timeout])
 
   // Protect /admin routes
   if (!user && request.nextUrl.pathname.startsWith('/admin')) {

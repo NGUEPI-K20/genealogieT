@@ -1,98 +1,15 @@
 import { Person, Relation } from './types'
 
-export const PEOPLE: Person[] = [
-  { id:'g1-m', first_name:'Henri', last_name:'Dumont', birth_year:1892, death_year:1961, current_place:'Bordeaux', generation:1, color:'#5C3D2E', initials:'HD', profession:'Tonnelier', bio:'Tonnelier de métier, Henri fonda la maison familiale à Bordeaux en 1918, après la Grande Guerre.' },
-  { id:'g1-f', first_name:'Marguerite', last_name:'Dumont', birth_name:'Lavigne', birth_year:1896, death_year:1978, current_place:'Périgueux', generation:1, color:'#7A5C4E', initials:'ML', profession:'Institutrice', bio:'Institutrice avant son mariage, Marguerite transmit à ses enfants le goût des lettres et de la musique.' },
-  { id:'g2-a', first_name:'Robert', last_name:'Dumont', birth_year:1921, death_year:1989, current_place:'Bordeaux', generation:2, color:'#3D5A47', initials:'RD', profession:'Officier de marine', bio:'Officier de marine, Robert navigua sur tous les océans avant de s\'établir à Bordeaux.' },
-  { id:'g2-aw', first_name:'Simone', last_name:'Dumont', birth_name:'Moreau', birth_year:1925, death_year:2003, current_place:'Nantes', generation:2, color:'#6B4E6B', initials:'SM', profession:'Couturière', bio:'Couturière talentueuse, Simone habilla plusieurs générations de la famille.' },
-  { id:'g2-b', first_name:'Louise', last_name:'Dumont', birth_year:1924, death_year:2015, current_place:'Bordeaux', generation:2, color:'#7A5C2E', initials:'LD', profession:'Professeure', bio:'Première femme de la famille à obtenir un diplôme universitaire, Louise enseigna la botanique pendant trente ans.' },
-  { id:'g2-c', first_name:'Georges', last_name:'Dumont', birth_year:1928, death_year:1944, current_place:'Bordeaux', generation:2, color:'#4A4540', initials:'GD', bio:'Mort à 16 ans pendant la Libération. Son souvenir est honoré chaque année par la famille.' },
-  { id:'g2-d', first_name:'Marcel', last_name:'Dumont', birth_year:1930, death_year:2018, current_place:'Lyon', generation:2, color:'#2E4A5C', initials:'MD', profession:'Architecte', bio:'Architecte de renom, Marcel laissa son empreinte sur plusieurs quartiers de Lyon.' },
-  { id:'g2-dw', first_name:'Élise', last_name:'Dumont', birth_name:'Bertrand', birth_year:1933, death_year:null, current_place:'Lyon', generation:2, color:'#5C3D5C', initials:'EB', profession:'Pianiste', bio:'À 91 ans, Élise reste le pilier de la famille. Sa mémoire est un trésor vivant.' },
-  { id:'g3-a', first_name:'Pierre', last_name:'Dumont', birth_year:1948, death_year:null, current_place:'Bordeaux', generation:3, color:'#3D5A47', initials:'PD', profession:'Médecin', bio:'Médecin généraliste à Bordeaux depuis 1976. Il court encore le marathon à 76 ans.' },
-  { id:'g3-aw', first_name:'Odette', last_name:'Dumont', birth_name:'Blanc', birth_year:1950, death_year:null, current_place:'Pau', generation:3, color:'#7A5C2E', initials:'OB', profession:'Libraire', bio:'Libraire passionnée, Odette a conseillé des milliers de lecteurs.' },
-  { id:'g3-b', first_name:'Claire', last_name:'Dumont', birth_year:1952, death_year:null, current_place:'Paris', generation:3, color:'#6B4E6B', initials:'CD', profession:'Journaliste', bio:'Journaliste au Monde pendant 30 ans, Claire a couvert plusieurs conflits internationaux.' },
-  { id:'g3-bh', first_name:'Jean-Paul', last_name:'Renard', birth_year:1948, death_year:2019, current_place:'Paris', generation:3, color:'#4A4540', initials:'JR', profession:'Avocat', bio:'Avocat plaidant, Jean-Paul défendit de grandes causes civiles.' },
-  { id:'g3-c', first_name:'Françoise', last_name:'Dumont', birth_year:1960, death_year:null, current_place:'Lyon', generation:3, color:'#2E4A5C', initials:'FD', profession:'Chercheuse', bio:'Chercheuse en biologie moléculaire, Françoise a publié plus de 80 articles.' },
-  { id:'g3-ch', first_name:'Alain', last_name:'Vidal', birth_year:1958, death_year:null, current_place:'Lyon', generation:3, color:'#3D5A47', initials:'AV', profession:'Chef cuisinier', bio:'Chef cuisinier étoilé, Alain a obtenu deux étoiles Michelin pour son restaurant lyonnais.' },
-  { id:'g3-d', first_name:'Thomas', last_name:'Dumont', birth_year:1963, death_year:null, current_place:'Montréal', generation:3, color:'#7A5C2E', initials:'TD', profession:'Architecte', bio:'Expatrié au Canada depuis 1990, Thomas dirige une agence d\'architecture à Montréal.' },
-  { id:'g3-dw', first_name:'Sophie', last_name:'Dumont', birth_name:'Tremblay', birth_year:1965, death_year:null, current_place:'Montréal', generation:3, color:'#5C3D2E', initials:'ST', profession:'Ingénieure', bio:'Québécoise de naissance, Sophie est ingénieure civile et aime la randonnée.' },
-  { id:'g4-a', first_name:'Julien', last_name:'Dumont', birth_year:1975, death_year:null, current_place:'Bordeaux', generation:4, color:'#2E4A5C', initials:'JD', profession:'Vigneron', bio:'Vigneron engagé, Julien a repris le domaine familial et produit des vins naturels récompensés.' },
-  { id:'g4-b', first_name:'Marine', last_name:'Dumont', birth_year:1978, death_year:null, current_place:'Bordeaux', generation:4, color:'#6B4E6B', initials:'MD', profession:'Kinésithérapeute', bio:'Kinésithérapeute spécialisée en sport, Marine suit plusieurs équipes professionnelles.' },
-  { id:'g4-c', first_name:'Léa', last_name:'Renard', birth_year:1982, death_year:null, current_place:'Paris', generation:4, color:'#7A5C2E', initials:'LR', profession:'Designer', bio:'Designer graphique, Léa a fondé sa propre agence parisienne en 2018.' },
-  { id:'g4-d', first_name:'Baptiste', last_name:'Vidal', birth_year:1987, death_year:null, current_place:'Lyon', generation:4, color:'#3D5A47', initials:'BV', profession:'Développeur', bio:'Développeur full-stack passionné par l\'open source.' },
-  { id:'g4-e', first_name:'Zoé', last_name:'Vidal', birth_year:1990, death_year:null, current_place:'Paris', generation:4, color:'#5C3D2E', initials:'ZV', profession:'Réalisatrice', bio:'Cinéaste indépendante, son premier court-métrage a été sélectionné à Cannes en 2022.' },
-  { id:'g4-f', first_name:'Noah', last_name:'Dumont', birth_year:1994, death_year:null, current_place:'Montréal', generation:4, color:'#2E4A5C', initials:'ND', profession:'Étudiant', bio:'Étudiant en médecine à Montréal. Passionné de ski et de photographie.' },
-  { id:'g4-g', first_name:'Camille', last_name:'Dumont', birth_year:1996, death_year:null, current_place:'Montréal', generation:4, color:'#6B4E6B', initials:'CD', profession:'Architecte', bio:'Architecte fraîchement diplômée, Camille a rejoint le cabinet de son père.' },
-  { id:'g4-h', first_name:'Lucas', last_name:'Dumont', birth_year:1999, death_year:null, current_place:'Vancouver', generation:4, color:'#3D5A47', initials:'LD', profession:'Musicien', bio:'Le plus jeune des Dumont canadiens. Musicien et barista le week-end.' },
-  { id:'g5-a', first_name:'Inès', last_name:'Dumont', birth_year:2003, death_year:null, current_place:'Bordeaux', generation:5, color:'#7A5C2E', initials:'ID', bio:'Lycéenne passionnée d\'œnologie et de chimie.' },
-  { id:'g5-b', first_name:'Théo', last_name:'Dumont', birth_year:2006, death_year:null, current_place:'Bordeaux', generation:5, color:'#2E4A5C', initials:'TD', bio:'Fan de football et passionné de robotique.' },
-  { id:'g5-c', first_name:'Emma', last_name:'Renard', birth_year:2012, death_year:null, current_place:'Paris', generation:5, color:'#5C3D2E', initials:'ER', bio:'La petite curieuse de la famille, toujours un livre sous le bras.' },
-  { id:'g5-d', first_name:'Hugo', last_name:'Renard', birth_year:2015, death_year:null, current_place:'Paris', generation:5, color:'#3D5A47', initials:'HR', bio:'Le benjamin de Paris. Adore les dinosaures et le dessin.' },
-  { id:'g5-e', first_name:'Mia', last_name:'Vidal', birth_year:2020, death_year:null, current_place:'Paris', generation:5, color:'#6B4E6B', initials:'MV', bio:'La petite dernière, née pendant le confinement.' },
-]
+// ─────────────────────────────────────────────────────────────────────────────
+// Données de secours (fallback), utilisées uniquement si Supabase n'est pas
+// joignable ou pas configuré. La vraie base de données vit dans Supabase
+// (tables `persons` et `relations` — voir supabase/schema.sql).
+//
+// Volontairement vide : ajoute les membres de la famille Nguepi / Douanio
+// depuis l'interface d'administration (/admin/ajouter), en commençant par
+// les grands-parents.
+// ─────────────────────────────────────────────────────────────────────────────
 
-export const RELATIONS: Relation[] = [
-  { id:'r1', person_a_id:'g1-m', person_b_id:'g1-f', type:'union', since_year:1920 },
-  { id:'r2', person_a_id:'g2-a', person_b_id:'g2-aw', type:'union', since_year:1947 },
-  { id:'r3', person_a_id:'g2-d', person_b_id:'g2-dw', type:'union', since_year:1958 },
-  { id:'r4', person_a_id:'g3-a', person_b_id:'g3-aw', type:'union', since_year:1972 },
-  { id:'r5', person_a_id:'g3-b', person_b_id:'g3-bh', type:'union', since_year:1980 },
-  { id:'r6', person_a_id:'g3-c', person_b_id:'g3-ch', type:'union', since_year:1985 },
-  { id:'r7', person_a_id:'g3-d', person_b_id:'g3-dw', type:'union', since_year:1992 },
-  // filiations
-  { id:'r8',  person_a_id:'g1-m', person_b_id:'g2-a',  type:'parent' },
-  { id:'r9',  person_a_id:'g1-m', person_b_id:'g2-b',  type:'parent' },
-  { id:'r10', person_a_id:'g1-m', person_b_id:'g2-c',  type:'parent' },
-  { id:'r11', person_a_id:'g1-m', person_b_id:'g2-d',  type:'parent' },
-  { id:'r12', person_a_id:'g2-a', person_b_id:'g3-a',  type:'parent' },
-  { id:'r13', person_a_id:'g2-a', person_b_id:'g3-b',  type:'parent' },
-  { id:'r14', person_a_id:'g2-d', person_b_id:'g3-c',  type:'parent' },
-  { id:'r15', person_a_id:'g2-d', person_b_id:'g3-d',  type:'parent' },
-  { id:'r16', person_a_id:'g3-a', person_b_id:'g4-a',  type:'parent' },
-  { id:'r17', person_a_id:'g3-a', person_b_id:'g4-b',  type:'parent' },
-  { id:'r18', person_a_id:'g3-b', person_b_id:'g4-c',  type:'parent' },
-  { id:'r19', person_a_id:'g3-c', person_b_id:'g4-d',  type:'parent' },
-  { id:'r20', person_a_id:'g3-c', person_b_id:'g4-e',  type:'parent' },
-  { id:'r21', person_a_id:'g3-d', person_b_id:'g4-f',  type:'parent' },
-  { id:'r22', person_a_id:'g3-d', person_b_id:'g4-g',  type:'parent' },
-  { id:'r23', person_a_id:'g3-d', person_b_id:'g4-h',  type:'parent' },
-  { id:'r24', person_a_id:'g4-a', person_b_id:'g5-a',  type:'parent' },
-  { id:'r25', person_a_id:'g4-a', person_b_id:'g5-b',  type:'parent' },
-  { id:'r26', person_a_id:'g4-c', person_b_id:'g5-c',  type:'parent' },
-  { id:'r27', person_a_id:'g4-c', person_b_id:'g5-d',  type:'parent' },
-  { id:'r28', person_a_id:'g4-e', person_b_id:'g5-e',  type:'parent' },
-]
+export const PEOPLE: Person[] = []
 
-// Node positions for React Flow
-export const NODE_POSITIONS: Record<string, { x: number; y: number }> = {
-  'g1-m':  { x: 1500, y: 160  },
-  'g1-f':  { x: 1700, y: 160  },
-  'g2-a':  { x: 900,  y: 380  },
-  'g2-aw': { x: 1080, y: 380  },
-  'g2-b':  { x: 1350, y: 380  },
-  'g2-c':  { x: 1600, y: 380  },
-  'g2-d':  { x: 1900, y: 380  },
-  'g2-dw': { x: 2080, y: 380  },
-  'g3-a':  { x: 700,  y: 620  },
-  'g3-aw': { x: 880,  y: 620  },
-  'g3-b':  { x: 1150, y: 620  },
-  'g3-bh': { x: 1300, y: 620  },
-  'g3-c':  { x: 1700, y: 620  },
-  'g3-ch': { x: 1860, y: 620  },
-  'g3-d':  { x: 2100, y: 620  },
-  'g3-dw': { x: 2260, y: 620  },
-  'g4-a':  { x: 620,  y: 860  },
-  'g4-b':  { x: 800,  y: 860  },
-  'g4-c':  { x: 1100, y: 860  },
-  'g4-d':  { x: 1620, y: 860  },
-  'g4-e':  { x: 1800, y: 860  },
-  'g4-f':  { x: 2050, y: 860  },
-  'g4-g':  { x: 2200, y: 860  },
-  'g4-h':  { x: 2370, y: 860  },
-  'g5-a':  { x: 540,  y: 1080 },
-  'g5-b':  { x: 700,  y: 1080 },
-  'g5-c':  { x: 1020, y: 1080 },
-  'g5-d':  { x: 1180, y: 1080 },
-  'g5-e':  { x: 1800, y: 1080 },
-}
+export const RELATIONS: Relation[] = []

@@ -54,7 +54,7 @@ export default function LoginPage() {
             Espace Administration
           </h1>
           <p className="font-mono text-[0.72rem] tracking-[0.2em] uppercase text-[#7A7268]">
-            Famille Dumont · Archives
+            Famille Nguepi · Archives
           </p>
         </div>
 
@@ -68,7 +68,7 @@ export default function LoginPage() {
               type="email"
               value={email}
               onChange={e => setEmail(e.target.value)}
-              placeholder="admin@dumont.fr"
+              placeholder="admin@nguepi.fr"
               required
               className="w-full bg-[#1E1C18] border border-[#2E2B25] text-[#E8E0D0] px-4 py-3 font-mono text-[0.9rem] rounded-[3px] outline-none focus:border-[#8B6420] transition-colors placeholder:text-[#4A4640]"
             />

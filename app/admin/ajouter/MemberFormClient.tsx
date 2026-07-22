@@ -70,7 +70,7 @@ export default function MemberFormClient({ allPersons, editPerson, action }: Pro
               onChange={setPrenom} />
             <Field name="last_name" label="Nom *"
               defaultValue={editPerson?.last_name}
-              placeholder="Dumont"
+              placeholder="Nguepi"
               onChange={setNom} />
           </div>
 

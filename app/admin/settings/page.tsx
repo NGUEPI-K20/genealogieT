@@ -9,11 +9,11 @@ export default function SettingsPage() {
           <div className="p-5 space-y-4">
             <div>
               <label className="block font-mono text-[0.65rem] tracking-[0.15em] uppercase text-[#7A7268] mb-1.5">Nom de la famille</label>
-              <input defaultValue="Dumont" className="w-full bg-[#1E1C18] border border-[#2E2B25] text-[#E8E0D0] px-3.5 py-2.5 text-[0.82rem] rounded-[3px] outline-none focus:border-[#8B6420]" />
+              <input defaultValue="Nguepi" className="w-full bg-[#1E1C18] border border-[#2E2B25] text-[#E8E0D0] px-3.5 py-2.5 text-[0.82rem] rounded-[3px] outline-none focus:border-[#8B6420]" />
             </div>
             <div>
               <label className="block font-mono text-[0.65rem] tracking-[0.15em] uppercase text-[#7A7268] mb-1.5">Sous-titre</label>
-              <input defaultValue="Arbre Généalogique · 1892 — 2024" className="w-full bg-[#1E1C18] border border-[#2E2B25] text-[#E8E0D0] px-3.5 py-2.5 text-[0.82rem] rounded-[3px] outline-none focus:border-[#8B6420]" />
+              <input defaultValue="Arbre Généalogique" className="w-full bg-[#1E1C18] border border-[#2E2B25] text-[#E8E0D0] px-3.5 py-2.5 text-[0.82rem] rounded-[3px] outline-none focus:border-[#8B6420]" />
             </div>
             <div className="grid grid-cols-2 gap-4">
               <div>
@@ -39,7 +39,7 @@ export default function SettingsPage() {
           <div className="p-5 space-y-4">
             <div>
               <label className="block font-mono text-[0.65rem] tracking-[0.15em] uppercase text-[#7A7268] mb-1.5">Email</label>
-              <input type="email" defaultValue="admin@dumont.fr" className="w-full bg-[#1E1C18] border border-[#2E2B25] text-[#E8E0D0] px-3.5 py-2.5 text-[0.82rem] rounded-[3px] outline-none focus:border-[#8B6420]" />
+              <input type="email" defaultValue="admin@nguepi.fr" className="w-full bg-[#1E1C18] border border-[#2E2B25] text-[#E8E0D0] px-3.5 py-2.5 text-[0.82rem] rounded-[3px] outline-none focus:border-[#8B6420]" />
             </div>
             <div>
               <label className="block font-mono text-[0.65rem] tracking-[0.15em] uppercase text-[#7A7268] mb-1.5">Nouveau mot de passe</label>

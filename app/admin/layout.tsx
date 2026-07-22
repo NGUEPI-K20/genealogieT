@@ -41,7 +41,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
       <aside className="w-[220px] bg-[#161410] border-r border-[#2E2B25] flex flex-col flex-shrink-0">
         {/* Logo */}
         <div className="px-5 py-7 border-b border-[#2E2B25]">
-          <p className="font-playfair text-base text-[#E8E0D0]">Famille Dumont</p>
+          <p className="font-playfair text-base text-[#E8E0D0]">Famille Nguepi</p>
           <p className="font-mono text-[0.62rem] tracking-[0.18em] uppercase text-[#C8922A] mt-0.5">Admin · v1.0</p>
         </div>
 

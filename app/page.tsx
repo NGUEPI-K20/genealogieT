@@ -43,9 +43,9 @@ async function getData(): Promise<{ people: Person[]; relations: Relation[] }> {
 // Calcule quelques stats dynamiques pour le header
 function computeStats(people: Person[]) {
   const alive = people.filter(p => !p.death_year).length
-  const generations = Math.max(...people.map(p => p.generation)) as 1 | 2 | 3 | 4 | 5
-  const minYear = Math.min(...people.map(p => p.birth_year))
+  const generations = (people.length > 0 ? Math.max(...people.map(p => p.generation)) : 0) as 1 | 2 | 3 | 4 | 5
   const maxYear = new Date().getFullYear()
+  const minYear = people.length > 0 ? Math.min(...people.map(p => p.birth_year)) : maxYear
   return { total: people.length, alive, generations, minYear, maxYear }
 }
 
@@ -74,7 +74,7 @@ export default async function Home() {
         <div>
           <h1 className="font-playfair text-2xl font-bold tracking-wide text-[#1C1A16]">
             Famille{' '}
-            <span className="font-normal italic text-[#8B4513]">Dumont</span>
+            <span className="font-normal italic text-[#8B4513]">Nguepi</span>
           </h1>
           <p className="text-[0.75rem] tracking-[0.2em] uppercase text-[#4A4540] mt-0.5">
             Arbre Généalogique · {stats.minYear} — {stats.maxYear}
@@ -153,7 +153,7 @@ export default async function Home() {
 
       {/* ── Pied de page ─────────────────────────────────── */}
       <p className="fixed bottom-6 right-6 font-playfair italic text-[0.7rem] text-[#C8B89A] tracking-wide z-20 select-none">
-        © Archives Dumont
+        © Archives Nguepi
       </p>
 
       {/* ── CSS keyframe pour le hint ─────────────────────── */}

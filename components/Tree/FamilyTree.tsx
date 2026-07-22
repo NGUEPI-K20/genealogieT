@@ -14,7 +14,7 @@ import ReactFlow, {
 import 'reactflow/dist/style.css'
 
 import { Person, Relation } from '@/lib/types'
-import { NODE_POSITIONS } from '@/lib/data'
+import { computeLayout } from '@/lib/layout'
 import PersonCard from './PersonCard'
 import PersonPanel from '@/components/PersonPanel/PersonPanel'
 
@@ -32,15 +32,17 @@ export default function FamilyTree({ people, relations }: FamilyTreeProps) {
     setSelectedPerson(prev => prev?.id === person.id ? null : person)
   }, [])
 
+  const positions = useMemo(() => computeLayout(people, relations), [people, relations])
+
   const initialNodes: Node[] = useMemo(() =>
     people.map(person => ({
       id: person.id,
       type: 'personCard',
-      position: NODE_POSITIONS[person.id] ?? { x: 0, y: 0 },
+      position: positions[person.id] ?? { x: 0, y: 0 },
       data: { ...person, onSelect: handleSelect, isActive: false },
       draggable: false,
     })),
-    [people, handleSelect]
+    [people, positions, handleSelect]
   )
 
   const initialEdges: Edge[] = useMemo(() =>

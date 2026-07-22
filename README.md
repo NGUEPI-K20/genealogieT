@@ -1,6 +1,6 @@
-# Famille Dumont — Arbre Généalogique
+# Famille Nguepi — Arbre Généalogique
 
-Site vitrine présentant l'arbre généalogique de la famille Dumont, avec interface d'administration sécurisée.
+Site vitrine présentant l'arbre généalogique de la famille Nguepi / Douanio, avec interface d'administration sécurisée.
 
 ## Stack
 
@@ -15,8 +15,8 @@ Site vitrine présentant l'arbre généalogique de la famille Dumont, avec inter
 ### 1. Cloner et installer
 
 ```bash
-git clone https://github.com/TON_USERNAME/dumont-genealogie.git
-cd dumont-genealogie
+git clone https://github.com/TON_USERNAME/nguepi-genealogie.git
+cd nguepi-genealogie
 npm install
 ```
 
@@ -65,9 +65,14 @@ lib/
 3. Ajouter les variables d'environnement dans Vercel Settings
 4. Chaque `git push` sur `main` déclenche un déploiement automatique
 
+## Base de données Supabase
+
+Le schéma (tables `persons`/`relations`, RLS, bucket photos) est dans `supabase/schema.sql`.
+À exécuter une fois dans l'éditeur SQL du projet Supabase (dashboard → SQL Editor).
+
 ## Prochaines étapes
 
-- [ ] Migrer `lib/data.ts` vers des requêtes Supabase
-- [ ] Activer Row Level Security sur Supabase
-- [ ] Créer l'utilisateur admin sur Supabase Auth
-- [ ] Brancher Supabase Storage pour les photos
+- [x] Migrer vers des requêtes Supabase (déjà branché dans `app/page.tsx`, `lib/actions/persons.ts`)
+- [ ] Exécuter `supabase/schema.sql` (tables + RLS + bucket photos)
+- [ ] Créer l'utilisateur admin sur Supabase Auth (dashboard → Authentication → Users)
+- [ ] Ajouter les premiers membres depuis `/admin/ajouter`, en commençant par Richard Nguepi et Josephine Douanio (génération I)

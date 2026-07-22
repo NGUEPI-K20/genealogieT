@@ -23,8 +23,8 @@ const sourceSerif = Source_Serif_4({
 })
 
 export const metadata: Metadata = {
-  title: 'Famille Dumont — Arbre Généalogique',
-  description: 'Arbre généalogique de la famille Dumont · 1892 — présent',
+  title: 'Famille Nguepi — Arbre Généalogique',
+  description: 'Arbre généalogique de la famille Nguepi · Douanio',
 }
 
 export default function RootLayout({
