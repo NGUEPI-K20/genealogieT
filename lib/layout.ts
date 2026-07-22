@@ -3,14 +3,20 @@ import { Person, Relation } from './types'
 // ─────────────────────────────────────────────────────────────────────────────
 // Positionnement automatique de l'arbre pour React Flow.
 //
-// Avant, les positions de chaque nœud étaient codées en dur (NODE_POSITIONS
-// dans lib/data.ts), ce qui obligeait à éditer du code à chaque nouveau membre.
-// Comme les membres sont désormais ajoutés depuis /admin/ajouter, on calcule
-// la position de chaque personne à partir de sa génération et de ses relations :
-//   - l'axe Y dépend uniquement de la génération (1 → 5)
-//   - l'axe X est calculé génération par génération : les enfants sont replacés
-//     au-dessus du barycentre (moyenne des positions X) de leurs parents, et
-//     les conjoints sont gardés côte à côte.
+// Objectif : reproduire la lisibilité d'un arbre généalogique classique —
+// un couple parent est toujours centré exactement au-dessus du milieu de SES
+// enfants, génération après génération (comme sur les posters "Arbre
+// généalogique" traditionnels), plutôt qu'un simple alignement par ligne.
+//
+// Principe (algorithme de type Reingold–Tilford simplifié) :
+//   1. On regroupe chaque génération en "unités" — une personne seule, ou un
+//      couple (deux conjoints) — reliées à leurs enfants via les relations
+//      de filiation.
+//   2. Largeur d'une unité = somme des largeurs de ses unités-enfants (1 si
+//      elle n'a pas d'enfant). Calcul du bas vers le haut.
+//   3. Position X = on redescend du haut vers le bas : chaque unité reçoit
+//      une plage horizontale proportionnelle à sa largeur, et se centre sur
+//      le milieu de la plage occupée par SES enfants.
 // ─────────────────────────────────────────────────────────────────────────────
 
 interface Position {
@@ -18,13 +24,23 @@ interface Position {
   y: number
 }
 
-const H_GAP = 220 // écart horizontal entre deux personnes voisines
-const V_GAP = 240 // écart vertical entre deux générations
+const UNIT_SPAN = 220  // largeur en pixels d'une unité de largeur 1
+const COUPLE_GAP = 150 // écart entre les deux conjoints d'un même couple
+const V_GAP = 240       // écart vertical entre deux générations
+
+interface Unit {
+  members: Person[]
+  children: Unit[]
+  width: number
+  generation: number
+}
 
 export function computeLayout(
   people: Person[],
   relations: Relation[]
 ): Record<string, Position> {
+  if (people.length === 0) return {}
+
   const byGeneration = new Map<number, Person[]>()
   for (const person of people) {
     const list = byGeneration.get(person.generation) ?? []
@@ -34,7 +50,6 @@ export function computeLayout(
 
   const parentsOf = new Map<string, string[]>()
   const spouseOf = new Map<string, string>()
-
   for (const rel of relations) {
     if (rel.type === 'parent') {
       const list = parentsOf.get(rel.person_b_id) ?? []
@@ -46,60 +61,102 @@ export function computeLayout(
     }
   }
 
-  const positions: Record<string, Position> = {}
+  // ─── 1. Construit les unités (personne seule ou couple) par génération ────
+  const personToUnit = new Map<string, Unit>()
   const generations = Array.from(byGeneration.keys()).sort((a, b) => a - b)
 
   for (const generation of generations) {
     const peopleInGen = byGeneration.get(generation)!
-    const isFirstGen = generation === generations[0]
-
-    // Trie par barycentre des positions des parents (déjà calculées, car on
-    // traite les générations dans l'ordre croissant). Sans parent positionné,
-    // on garde l'ordre d'origine (poussé en fin de liste).
-    const withScore = peopleInGen.map(person => {
-      if (isFirstGen) return { person, score: 0 }
-      const parentIds = parentsOf.get(person.id) ?? []
-      const parentXs = parentIds
-        .map(id => positions[id]?.x)
-        .filter((x): x is number => x !== undefined)
-      const score = parentXs.length > 0
-        ? parentXs.reduce((a, b) => a + b, 0) / parentXs.length
-        : Number.POSITIVE_INFINITY
-      return { person, score }
-    })
-    withScore.sort((a, b) => a.score - b.score)
-
-    // Place les personnes en gardant les conjoints adjacents.
     const placed = new Set<string>()
-    const ordered: Person[] = []
-    for (const { person } of withScore) {
+
+    for (const person of peopleInGen) {
       if (placed.has(person.id)) continue
-      ordered.push(person)
-      placed.add(person.id)
 
       const spouseId = spouseOf.get(person.id)
-      if (spouseId && !placed.has(spouseId)) {
-        const spouse = peopleInGen.find(p => p.id === spouseId)
-        if (spouse) {
-          ordered.push(spouse)
-          placed.add(spouseId)
-        }
+      const spouse = spouseId ? peopleInGen.find(p => p.id === spouseId) : undefined
+      const members = spouse ? [person, spouse] : [person]
+      members.forEach(m => placed.add(m.id))
+
+      const unit: Unit = { members, children: [], width: 1, generation }
+      members.forEach(m => personToUnit.set(m.id, unit))
+    }
+  }
+
+  // ─── 2. Relie chaque unité à son unité-parente ─────────────────────────────
+  const rootUnits: Unit[] = []
+  const linkedAsChild = new Set<Unit>()
+
+  for (const generation of generations) {
+    const peopleInGen = byGeneration.get(generation)!
+    const seen = new Set<Unit>()
+
+    for (const person of peopleInGen) {
+      const unit = personToUnit.get(person.id)!
+      if (seen.has(unit)) continue
+      seen.add(unit)
+
+      const parentIds = unit.members.flatMap(m => parentsOf.get(m.id) ?? [])
+      const parentUnit = parentIds
+        .map(id => personToUnit.get(id))
+        .find((u): u is Unit => !!u && u !== unit)
+
+      if (parentUnit && !parentUnit.children.includes(unit)) {
+        parentUnit.children.push(unit)
+        linkedAsChild.add(unit)
       }
     }
+  }
 
-    // Centre la génération : chaque rangée est répartie symétriquement autour
-    // de x = 0, quelle que soit sa largeur. Grands-parents (peu nombreux) et
-    // petits-enfants (nombreux) partagent ainsi le même axe central, ce qui
-    // donne un arbre visuellement centré, génération après génération.
-    const rowWidth = (ordered.length - 1) * H_GAP
-    const offset = -rowWidth / 2
+  // Unités racines : toute unité qui n'a été rattachée à aucun parent
+  // (normalement la génération 1, mais on reste tolérant aux données isolées).
+  for (const generation of generations) {
+    const peopleInGen = byGeneration.get(generation)!
+    const seen = new Set<Unit>()
+    for (const person of peopleInGen) {
+      const unit = personToUnit.get(person.id)!
+      if (seen.has(unit)) continue
+      seen.add(unit)
+      if (!linkedAsChild.has(unit)) rootUnits.push(unit)
+    }
+  }
 
-    ordered.forEach((person, index) => {
-      positions[person.id] = {
-        x: offset + index * H_GAP,
-        y: (generation - 1) * V_GAP,
-      }
-    })
+  // ─── 3. Largeur de chaque unité, du bas vers le haut ──────────────────────
+  function computeWidth(unit: Unit): number {
+    if (unit.children.length === 0) {
+      unit.width = 1
+    } else {
+      unit.width = unit.children.reduce((sum, c) => sum + computeWidth(c), 0)
+    }
+    return unit.width
+  }
+  rootUnits.forEach(computeWidth)
+
+  // ─── 4. Position X, du haut vers le bas ───────────────────────────────────
+  const positions: Record<string, Position> = {}
+
+  function assignX(unit: Unit, startOffset: number) {
+    const center = startOffset + unit.width / 2
+    const x = center * UNIT_SPAN
+    const y = (unit.generation - 1) * V_GAP
+
+    if (unit.members.length === 2) {
+      positions[unit.members[0].id] = { x: x - COUPLE_GAP / 2, y }
+      positions[unit.members[1].id] = { x: x + COUPLE_GAP / 2, y }
+    } else {
+      positions[unit.members[0].id] = { x, y }
+    }
+
+    let childOffset = startOffset
+    for (const child of unit.children) {
+      assignX(child, childOffset)
+      childOffset += child.width
+    }
+  }
+
+  let rootOffset = 0
+  for (const root of rootUnits) {
+    assignX(root, rootOffset)
+    rootOffset += root.width
   }
 
   return positions
