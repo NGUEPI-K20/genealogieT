@@ -62,11 +62,18 @@ export function computeLayout(
   }
 
   // ─── 1. Construit les unités (personne seule ou couple) par génération ────
+  // Tri par année de naissance décroissante (benjamin → aîné). Le premier
+  // élément du tableau reçoit le décalage X le plus petit (voir assignX
+  // en §4), donc le/la benjamin(e) se retrouve à GAUCHE et l'aîné(e),
+  // placé(e) en dernier, se retrouve à DROITE — lecture traditionnelle
+  // "droite → gauche" de l'ordre de naissance.
   const personToUnit = new Map<string, Unit>()
   const generations = Array.from(byGeneration.keys()).sort((a, b) => a - b)
 
   for (const generation of generations) {
-    const peopleInGen = byGeneration.get(generation)!
+    const peopleInGen = [...byGeneration.get(generation)!].sort(
+      (a, b) => (b.birth_year ?? 0) - (a.birth_year ?? 0)
+    )
     const placed = new Set<string>()
 
     for (const person of peopleInGen) {
