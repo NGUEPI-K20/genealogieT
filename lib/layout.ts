@@ -49,15 +49,21 @@ export function computeLayout(
   }
 
   const parentsOf = new Map<string, string[]>()
-  const spouseOf = new Map<string, string>()
+  // Un même conjoint peut être marié à plusieurs personnes (polygamie) : on
+  // accumule TOUS les partenaires au lieu d'écraser la relation précédente.
+  const spousesOf = new Map<string, Set<string>>()
   for (const rel of relations) {
     if (rel.type === 'parent') {
       const list = parentsOf.get(rel.person_b_id) ?? []
       list.push(rel.person_a_id)
       parentsOf.set(rel.person_b_id, list)
     } else if (rel.type === 'union') {
-      spouseOf.set(rel.person_a_id, rel.person_b_id)
-      spouseOf.set(rel.person_b_id, rel.person_a_id)
+      const a = spousesOf.get(rel.person_a_id) ?? new Set<string>()
+      a.add(rel.person_b_id)
+      spousesOf.set(rel.person_a_id, a)
+      const b = spousesOf.get(rel.person_b_id) ?? new Set<string>()
+      b.add(rel.person_a_id)
+      spousesOf.set(rel.person_b_id, b)
     }
   }
 
@@ -79,9 +85,24 @@ export function computeLayout(
     for (const person of peopleInGen) {
       if (placed.has(person.id)) continue
 
-      const spouseId = spouseOf.get(person.id)
-      const spouse = spouseId ? peopleInGen.find(p => p.id === spouseId) : undefined
-      const members = spouse ? [person, spouse] : [person]
+      // Regroupe la personne avec TOUS ses conjoint(e)s connu(e)s (une
+      // seule union comme la majorité des cas, ou plusieurs en cas de
+      // polygamie) en une seule unité.
+      const ids = new Set<string>([person.id])
+      for (const sid of Array.from(spousesOf.get(person.id) ?? [])) ids.add(sid)
+      let members = Array.from(ids)
+        .map(id => peopleInGen.find(p => p.id === id))
+        .filter((p): p is Person => !!p)
+
+      // La personne de sang (celle qui a des parents enregistrés dans une
+      // génération précédente) est placée au centre de l'unité, les
+      // conjoint(e)s de part et d'autre.
+      const anchorIndex = members.findIndex(m => (parentsOf.get(m.id) ?? []).length > 0)
+      if (anchorIndex > 0) {
+        const [anchor] = members.splice(anchorIndex, 1)
+        members.splice(Math.floor(members.length / 2), 0, anchor)
+      }
+
       members.forEach(m => placed.add(m.id))
 
       const unit: Unit = { members, children: [], width: 1, generation }
@@ -146,12 +167,13 @@ export function computeLayout(
     const x = center * UNIT_SPAN
     const y = (unit.generation - 1) * V_GAP
 
-    if (unit.members.length === 2) {
-      positions[unit.members[0].id] = { x: x - COUPLE_GAP / 2, y }
-      positions[unit.members[1].id] = { x: x + COUPLE_GAP / 2, y }
-    } else {
-      positions[unit.members[0].id] = { x, y }
-    }
+    // Répartit symétriquement les membres de l'unité (1 seul, un couple,
+    // ou une personne + plusieurs conjoint(e)s en cas de polygamie).
+    const n = unit.members.length
+    unit.members.forEach((m, i) => {
+      const memberOffsetX = (i - (n - 1) / 2) * COUPLE_GAP
+      positions[m.id] = { x: x + memberOffsetX, y }
+    })
 
     let childOffset = startOffset
     for (const child of unit.children) {
