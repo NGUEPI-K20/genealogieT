@@ -22,7 +22,7 @@ async function getData(): Promise<{ people: Person[]; relations: Relation[] }> {
     const [{ data: people, error: pErr }, { data: relations, error: rErr }] =
       await Promise.all([
         supabase.from('persons').select('*').order('generation').order('birth_year'),
-        supabase.from('relations').select('*'),
+        supabase.from('relations').select('*').order('created_at'),
       ])
 
     if (pErr || rErr) {

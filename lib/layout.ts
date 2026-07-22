@@ -93,6 +93,10 @@ export function computeLayout(
       let members = Array.from(ids)
         .map(id => peopleInGen.find(p => p.id === id))
         .filter((p): p is Person => !!p)
+        // Tri déterministe par année de naissance : Postgres ne garantit pas
+        // l'ordre des lignes sans ORDER BY, donc on ne peut pas se fier à
+        // l'ordre d'arrivée des relations pour placer les conjoint(e)s.
+        .sort((a, b) => (a.birth_year ?? 0) - (b.birth_year ?? 0))
 
       // La personne de sang (celle qui a des parents enregistrés dans une
       // génération précédente) est placée au centre de l'unité, les
