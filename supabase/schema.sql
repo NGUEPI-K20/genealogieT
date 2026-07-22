@@ -50,7 +50,8 @@ begin
   new.updated_at = now();
   return new;
 end;
-$$ language plpgsql;
+$$ language plpgsql
+set search_path = public;
 
 drop trigger if exists persons_set_updated_at on public.persons;
 create trigger persons_set_updated_at
@@ -88,17 +89,14 @@ create policy "Authenticated write relations"
   with check (auth.role() = 'authenticated');
 
 -- ─── Storage : bucket pour les photos ─────────────────────────────────────────
--- Bucket public en lecture (les photos affichées sur le site vitrine),
--- écriture réservée aux utilisateurs authentifiés.
+-- Bucket public : les fichiers restent accessibles par leur URL publique sans
+-- policy SELECT (Supabase sert les objets publics directement). On évite donc
+-- une policy SELECT large qui permettrait de lister tous les fichiers du bucket.
+-- Écriture réservée aux utilisateurs authentifiés.
 
 insert into storage.buckets (id, name, public)
 values ('photos', 'photos', true)
 on conflict (id) do nothing;
-
-drop policy if exists "Public read photos" on storage.objects;
-create policy "Public read photos"
-  on storage.objects for select
-  using (bucket_id = 'photos');
 
 drop policy if exists "Authenticated write photos" on storage.objects;
 create policy "Authenticated write photos"
