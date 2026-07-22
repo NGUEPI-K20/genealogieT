@@ -67,29 +67,49 @@ export function computeLayout(
     }
   }
 
-  // ─── 1. Construit les unités (personne seule ou couple) par génération ────
   // Tri par année de naissance décroissante (benjamin → aîné). Le premier
   // élément du tableau reçoit le décalage X le plus petit (voir assignX
   // en §4), donc le/la benjamin(e) se retrouve à GAUCHE et l'aîné(e),
   // placé(e) en dernier, se retrouve à DROITE — lecture traditionnelle
   // "droite → gauche" de l'ordre de naissance.
-  const personToUnit = new Map<string, Unit>()
+  // Ce même ordre trié doit être réutilisé PARTOUT (étapes 1 et 2) : sinon
+  // l'étape qui relie les unités à leurs parents retomberait sur l'ordre
+  // d'origine (croissant) et inverserait le sens d'affichage.
   const generations = Array.from(byGeneration.keys()).sort((a, b) => a - b)
+  const sortedByGeneration = new Map<number, Person[]>()
+  for (const generation of generations) {
+    sortedByGeneration.set(
+      generation,
+      [...byGeneration.get(generation)!].sort((a, b) => (b.birth_year ?? 0) - (a.birth_year ?? 0))
+    )
+  }
+
+  // ─── 1. Construit les unités (personne seule ou couple) par génération ────
+  const personToUnit = new Map<string, Unit>()
 
   for (const generation of generations) {
-    const peopleInGen = [...byGeneration.get(generation)!].sort(
-      (a, b) => (b.birth_year ?? 0) - (a.birth_year ?? 0)
-    )
+    const peopleInGen = sortedByGeneration.get(generation)!
     const placed = new Set<string>()
 
     for (const person of peopleInGen) {
       if (placed.has(person.id)) continue
 
-      // Regroupe la personne avec TOUS ses conjoint(e)s connu(e)s (une
-      // seule union comme la majorité des cas, ou plusieurs en cas de
-      // polygamie) en une seule unité.
+      // Regroupe la personne avec TOUS ses conjoint(e)s connu(e)s, par
+      // fermeture transitive du graphe des unions : si on rencontre d'abord
+      // la 2e épouse d'un mari polygame, il faut quand même récupérer le
+      // mari ET sa 1ère épouse (un simple aller-retour sur 1 niveau les
+      // manquerait et créerait une unité fantôme dupliquée).
       const ids = new Set<string>([person.id])
-      for (const sid of Array.from(spousesOf.get(person.id) ?? [])) ids.add(sid)
+      const queue = [person.id]
+      while (queue.length > 0) {
+        const current = queue.shift()!
+        for (const sid of Array.from(spousesOf.get(current) ?? [])) {
+          if (!ids.has(sid)) {
+            ids.add(sid)
+            queue.push(sid)
+          }
+        }
+      }
       let members = Array.from(ids)
         .map(id => peopleInGen.find(p => p.id === id))
         .filter((p): p is Person => !!p)
@@ -120,7 +140,7 @@ export function computeLayout(
   const linkedAsChild = new Set<Unit>()
 
   for (const generation of generations) {
-    const peopleInGen = byGeneration.get(generation)!
+    const peopleInGen = sortedByGeneration.get(generation)!
     const seen = new Set<Unit>()
 
     for (const person of peopleInGen) {
@@ -143,7 +163,7 @@ export function computeLayout(
   // Unités racines : toute unité qui n'a été rattachée à aucun parent
   // (normalement la génération 1, mais on reste tolérant aux données isolées).
   for (const generation of generations) {
-    const peopleInGen = byGeneration.get(generation)!
+    const peopleInGen = sortedByGeneration.get(generation)!
     const seen = new Set<Unit>()
     for (const person of peopleInGen) {
       const unit = personToUnit.get(person.id)!
