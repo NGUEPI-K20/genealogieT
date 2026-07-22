@@ -20,11 +20,11 @@ function PersonCard({ data, selected }: PersonCardProps) {
       <div
         onClick={() => onSelect(data)}
         className={`
-          w-36 bg-[#FAF7F2] border rounded-[4px] p-4 cursor-pointer
+          w-36 bg-[#FAF7F2] border-2 rounded-[4px] p-4 cursor-pointer
           transition-all duration-200 ease-out
           ${isActive
-            ? 'border-[#8B4513] shadow-[0_8px_32px_rgba(28,26,22,0.12),0_0_0_3px_rgba(139,69,19,0.15)]'
-            : 'border-[#C8B89A] shadow-[0_2px_8px_rgba(28,26,22,0.12)] hover:border-[#C8A882] hover:shadow-[0_6px_24px_rgba(28,26,22,0.15)] hover:-translate-y-0.5'
+            ? 'border-[#A81C1C] shadow-[0_8px_32px_rgba(23,18,16,0.16),0_0_0_3px_rgba(212,160,23,0.25)]'
+            : 'border-[#D4A017]/40 shadow-[0_2px_8px_rgba(23,18,16,0.12)] hover:border-[#A81C1C] hover:shadow-[0_6px_24px_rgba(23,18,16,0.18)] hover:-translate-y-0.5'
           }
         `}
       >
@@ -50,7 +50,7 @@ function PersonCard({ data, selected }: PersonCardProps) {
 
         {/* Place */}
         {current_place && (
-          <p className="text-[0.6rem] text-center text-[#8B4513] tracking-widest uppercase mt-1.5 italic">
+          <p className="text-[0.6rem] text-center text-[#A81C1C] tracking-widest uppercase mt-1.5 italic">
             {current_place}
           </p>
         )}

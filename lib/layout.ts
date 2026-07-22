@@ -87,9 +87,16 @@ export function computeLayout(
       }
     }
 
+    // Centre la génération : chaque rangée est répartie symétriquement autour
+    // de x = 0, quelle que soit sa largeur. Grands-parents (peu nombreux) et
+    // petits-enfants (nombreux) partagent ainsi le même axe central, ce qui
+    // donne un arbre visuellement centré, génération après génération.
+    const rowWidth = (ordered.length - 1) * H_GAP
+    const offset = -rowWidth / 2
+
     ordered.forEach((person, index) => {
       positions[person.id] = {
-        x: index * H_GAP,
+        x: offset + index * H_GAP,
         y: (generation - 1) * V_GAP,
       }
     })

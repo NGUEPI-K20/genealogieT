@@ -47,7 +47,7 @@ export default function LoginPage() {
 
         {/* Logo */}
         <div className="text-center mb-12">
-          <div className="w-12 h-12 rounded-full border border-[#8B6420] flex items-center justify-center mx-auto mb-4 font-playfair text-xl text-[#C8922A]">
+          <div className="w-12 h-12 rounded-full border border-[#A81C1C] flex items-center justify-center mx-auto mb-4 font-playfair text-xl text-[#D4A017]">
             D
           </div>
           <h1 className="font-playfair text-[1.4rem] text-[#E8E0D0] mb-1">
@@ -70,7 +70,7 @@ export default function LoginPage() {
               onChange={e => setEmail(e.target.value)}
               placeholder="admin@nguepi.fr"
               required
-              className="w-full bg-[#1E1C18] border border-[#2E2B25] text-[#E8E0D0] px-4 py-3 font-mono text-[0.9rem] rounded-[3px] outline-none focus:border-[#8B6420] transition-colors placeholder:text-[#4A4640]"
+              className="w-full bg-[#1E1C18] border border-[#2E2B25] text-[#E8E0D0] px-4 py-3 font-mono text-[0.9rem] rounded-[3px] outline-none focus:border-[#A81C1C] transition-colors placeholder:text-[#4A4640]"
             />
           </div>
 
@@ -84,7 +84,7 @@ export default function LoginPage() {
               onChange={e => setPassword(e.target.value)}
               placeholder="••••••••"
               required
-              className="w-full bg-[#1E1C18] border border-[#2E2B25] text-[#E8E0D0] px-4 py-3 font-mono text-[0.9rem] rounded-[3px] outline-none focus:border-[#8B6420] transition-colors placeholder:text-[#4A4640]"
+              className="w-full bg-[#1E1C18] border border-[#2E2B25] text-[#E8E0D0] px-4 py-3 font-mono text-[0.9rem] rounded-[3px] outline-none focus:border-[#A81C1C] transition-colors placeholder:text-[#4A4640]"
             />
           </div>
 
@@ -95,7 +95,7 @@ export default function LoginPage() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-[#C8922A] text-[#0E0D0B] py-3 font-playfair text-[0.9rem] tracking-wide rounded-[3px] hover:bg-[#D9A040] transition-colors disabled:opacity-60 disabled:cursor-not-allowed mt-2"
+            className="w-full bg-[#D4A017] text-[#0E0D0B] py-3 font-playfair text-[0.9rem] tracking-wide rounded-[3px] hover:bg-[#E8B923] transition-colors disabled:opacity-60 disabled:cursor-not-allowed mt-2"
           >
             {loading ? 'Connexion…' : 'Accéder à l\'administration'}
           </button>

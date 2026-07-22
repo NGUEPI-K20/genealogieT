@@ -52,8 +52,8 @@ export default function FamilyTree({ people, relations }: FamilyTreeProps) {
       target: rel.person_b_id,
       type: 'smoothstep',
       style: rel.type === 'union'
-        ? { stroke: '#8B4513', strokeWidth: 1, strokeDasharray: '4 3', opacity: 0.4 }
-        : { stroke: '#C8A882', strokeWidth: 1.5, opacity: 0.6 },
+        ? { stroke: '#A81C1C', strokeWidth: 1.5, strokeDasharray: '4 3', opacity: 0.55 }
+        : { stroke: '#D4A017', strokeWidth: 1.75, opacity: 0.75 },
       animated: false,
     })),
     [relations]

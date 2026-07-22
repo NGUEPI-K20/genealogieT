@@ -4,6 +4,7 @@ import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import { Person } from '@/lib/types'
+import { GEN_COLORS } from '@/lib/colors'
 
 // ─── Helpers ────────────────────────────────────────────────────────────────
 
@@ -22,15 +23,6 @@ function generateId(firstName: string, lastName: string): string {
 /** Génère les initiales depuis prénom + nom */
 function generateInitials(firstName: string, lastName: string): string {
   return `${firstName[0] ?? ''}${lastName[0] ?? ''}`.toUpperCase()
-}
-
-/** Palette de couleurs selon la génération */
-const GEN_COLORS: Record<number, string[]> = {
-  1: ['#5C3D2E', '#7A5C4E'],
-  2: ['#3D5A47', '#6B4E6B', '#7A5C2E', '#4A4540', '#2E4A5C', '#5C3D5C'],
-  3: ['#3D5A47', '#7A5C2E', '#6B4E6B', '#4A4540', '#2E4A5C', '#5C3D2E'],
-  4: ['#2E4A5C', '#6B4E6B', '#7A5C2E', '#3D5A47', '#5C3D2E'],
-  5: ['#7A5C2E', '#2E4A5C', '#5C3D2E', '#3D5A47', '#6B4E6B'],
 }
 
 function pickColor(generation: number, existingColors: string[]): string {

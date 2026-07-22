@@ -75,7 +75,7 @@ export default async function AdminDashboard() {
       <div className="grid grid-cols-4 gap-4 mb-8">
         {stats.map(s => (
           <div key={s.label} className="bg-[#161410] border border-[#2E2B25] rounded-[3px] px-5 py-5 relative overflow-hidden">
-            <div className="absolute top-0 left-0 right-0 h-0.5 bg-[#8B6420]" />
+            <div className="absolute top-0 left-0 right-0 h-0.5 bg-[#A81C1C]" />
             <p className="font-playfair text-4xl text-[#E8E0D0] leading-none mb-1.5">{s.value}</p>
             <p className="font-mono text-[0.68rem] tracking-[0.15em] uppercase text-[#7A7268]">{s.label}</p>
             {s.delta && (
@@ -92,7 +92,7 @@ export default async function AdminDashboard() {
         <div className="bg-[#161410] border border-[#2E2B25] rounded-[3px] overflow-hidden">
           <div className="px-5 py-3.5 border-b border-[#2E2B25] flex items-center justify-between">
             <h2 className="font-playfair text-[0.9rem] text-[#E8E0D0]">Membres récents</h2>
-            <a href="/admin/membres" className="font-mono text-[0.68rem] text-[#C8922A] hover:underline">
+            <a href="/admin/membres" className="font-mono text-[0.68rem] text-[#D4A017] hover:underline">
               Voir tout →
             </a>
           </div>
@@ -121,7 +121,7 @@ export default async function AdminDashboard() {
                     </div>
                   </td>
                   <td className="px-4 py-3 border-b border-[#2E2B25]">
-                    <span className="bg-[rgba(200,146,42,0.1)] text-[#C8922A] border border-[rgba(200,146,42,0.2)] font-mono text-[0.62rem] px-2 py-0.5 rounded-sm">
+                    <span className="bg-[rgba(200,146,42,0.1)] text-[#D4A017] border border-[rgba(200,146,42,0.2)] font-mono text-[0.62rem] px-2 py-0.5 rounded-sm">
                       Gen. {GEN_LABELS[m.generation]}
                     </span>
                   </td>
@@ -154,7 +154,7 @@ export default async function AdminDashboard() {
           <div>
             {activity.map((a, i) => (
               <div key={i} className="flex gap-3 px-5 py-3 border-b border-[#2E2B25] last:border-b-0 items-start">
-                <div className={`w-2 h-2 rounded-full mt-1.5 flex-shrink-0 ${a.type === 'add' ? 'bg-[#4A8B5A]' : 'bg-[#C8922A]'}`} />
+                <div className={`w-2 h-2 rounded-full mt-1.5 flex-shrink-0 ${a.type === 'add' ? 'bg-[#4A8B5A]' : 'bg-[#D4A017]'}`} />
                 <div>
                   <p className="text-[0.8rem] text-[#7A7268] leading-snug">
                     {a.text} <span className="font-playfair text-[#E8E0D0]">{a.name}</span> — {a.sub}

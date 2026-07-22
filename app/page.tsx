@@ -74,7 +74,7 @@ export default async function Home() {
         <div>
           <h1 className="font-playfair text-2xl font-bold tracking-wide text-[#1C1A16]">
             Famille{' '}
-            <span className="font-normal italic text-[#8B4513]">Nguepi</span>
+            <span className="font-normal italic text-[#A81C1C]">Nguepi</span>
           </h1>
           <p className="text-[0.75rem] tracking-[0.2em] uppercase text-[#4A4540] mt-0.5">
             Arbre Généalogique · {stats.minYear} — {stats.maxYear}
@@ -95,7 +95,7 @@ export default async function Home() {
               vivants
             </span>
             <span className="text-[#C8B89A]">·</span>
-            <span className="font-playfair italic text-[0.9rem] text-[#8B4513] border-l border-[#C8B89A] pl-5">
+            <span className="font-playfair italic text-[0.9rem] text-[#A81C1C] border-l border-[#C8B89A] pl-5">
               {stats.generations} générations
             </span>
           </div>
@@ -104,10 +104,10 @@ export default async function Home() {
           <Link
             href="/login"
             className="
-              border border-[#C8B89A] text-[#4A4540]
+              border border-[#D4A017]/50 text-[#4A4540]
               px-3.5 py-1.5 text-[0.65rem] tracking-[0.12em] uppercase
               font-mono rounded-[3px]
-              hover:border-[#8B4513] hover:text-[#8B4513]
+              hover:border-[#A81C1C] hover:text-[#A81C1C]
               transition-all duration-200
             "
           >
@@ -142,17 +142,17 @@ export default async function Home() {
         className="fixed bottom-24 left-10 z-20 flex flex-col gap-2"
       >
         <div className="flex items-center gap-2 text-[0.65rem] tracking-[0.1em] uppercase text-[#4A4540]">
-          <div className="w-6 h-px bg-[#C8A882]" />
+          <div className="w-6 h-px bg-[#D4A017]" />
           Filiation
         </div>
         <div className="flex items-center gap-2 text-[0.65rem] tracking-[0.1em] uppercase text-[#4A4540]">
-          <div className="w-6 border-t border-dashed border-[#C8A882]" />
+          <div className="w-6 border-t border-dashed border-[#A81C1C]" />
           Union
         </div>
       </div>
 
       {/* ── Pied de page ─────────────────────────────────── */}
-      <p className="fixed bottom-6 right-6 font-playfair italic text-[0.7rem] text-[#C8B89A] tracking-wide z-20 select-none">
+      <p className="fixed bottom-6 right-6 font-playfair italic text-[0.7rem] text-[#D4A017] tracking-wide z-20 select-none">
         © Archives Nguepi
       </p>
 

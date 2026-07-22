@@ -42,7 +42,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
         {/* Logo */}
         <div className="px-5 py-7 border-b border-[#2E2B25]">
           <p className="font-playfair text-base text-[#E8E0D0]">Famille Nguepi</p>
-          <p className="font-mono text-[0.62rem] tracking-[0.18em] uppercase text-[#C8922A] mt-0.5">Admin · v1.0</p>
+          <p className="font-mono text-[0.62rem] tracking-[0.18em] uppercase text-[#D4A017] mt-0.5">Admin · v1.0</p>
         </div>
 
         {/* Nav */}
@@ -57,7 +57,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
               <span className="w-[18px] text-center text-[0.9rem]">{item.icon}</span>
               {item.label}
               {item.badge && (
-                <span className="ml-auto bg-[#8B6420] text-[#C8922A] font-mono text-[0.6rem] px-1.5 py-0.5 rounded-full">
+                <span className="ml-auto bg-[#A81C1C] text-[#D4A017] font-mono text-[0.6rem] px-1.5 py-0.5 rounded-full">
                   {item.badge}
                 </span>
               )}
@@ -68,7 +68,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
         {/* Footer */}
         <div className="px-3 py-4 border-t border-[#2E2B25]">
           <div className="flex items-center gap-2.5 px-2 py-2 mb-2">
-            <div className="w-7 h-7 rounded-full bg-[#8B6420] flex items-center justify-center font-playfair text-[0.7rem] text-[#C8922A] flex-shrink-0">
+            <div className="w-7 h-7 rounded-full bg-[#A81C1C] flex items-center justify-center font-playfair text-[0.7rem] text-[#D4A017] flex-shrink-0">
               A
             </div>
             <div>
@@ -87,13 +87,13 @@ export default async function AdminLayout({ children }: { children: React.ReactN
           <div className="flex-1" />
           <Link
             href="/"
-            className="border border-[#2E2B25] text-[#7A7268] px-3.5 py-1.5 font-mono text-[0.68rem] tracking-[0.1em] rounded-[3px] hover:border-[#8B6420] hover:text-[#C8922A] transition-all"
+            className="border border-[#2E2B25] text-[#7A7268] px-3.5 py-1.5 font-mono text-[0.68rem] tracking-[0.1em] rounded-[3px] hover:border-[#A81C1C] hover:text-[#D4A017] transition-all"
           >
             ← Voir le site
           </Link>
           <Link
             href="/admin/ajouter"
-            className="bg-[#C8922A] text-[#0E0D0B] px-4 py-2 font-playfair text-[0.8rem] rounded-[3px] hover:bg-[#D9A040] transition-colors"
+            className="bg-[#D4A017] text-[#0E0D0B] px-4 py-2 font-playfair text-[0.8rem] rounded-[3px] hover:bg-[#E8B923] transition-colors"
           >
             ＋ Nouveau membre
           </Link>

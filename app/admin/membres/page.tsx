@@ -34,7 +34,7 @@ export default async function MembresPage() {
             Tous les membres
             <span className="ml-2 font-mono text-[0.68rem] text-[#7A7268]">({members.length})</span>
           </h2>
-          <span className="font-mono text-[0.68rem] text-[#C8922A] cursor-pointer hover:underline">
+          <span className="font-mono text-[0.68rem] text-[#D4A017] cursor-pointer hover:underline">
             Exporter CSV
           </span>
         </div>
@@ -68,7 +68,7 @@ export default async function MembresPage() {
                 </td>
                 <td className="px-4 py-3 border-b border-[#2E2B25] font-mono text-[0.75rem] text-[#7A7268]">{m.death_year ?? '—'}</td>
                 <td className="px-4 py-3 border-b border-[#2E2B25]">
-                  <span className="bg-[rgba(200,146,42,0.1)] text-[#C8922A] border border-[rgba(200,146,42,0.2)] font-mono text-[0.62rem] px-2 py-0.5 rounded-sm">
+                  <span className="bg-[rgba(200,146,42,0.1)] text-[#D4A017] border border-[rgba(200,146,42,0.2)] font-mono text-[0.62rem] px-2 py-0.5 rounded-sm">
                     Gen. {ROMANS[m.generation]}
                   </span>
                 </td>
@@ -81,7 +81,7 @@ export default async function MembresPage() {
                 <td className="px-4 py-3 border-b border-[#2E2B25]">
                   <div className="flex gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity">
                     <Link href={`/admin/ajouter?id=${m.id}`}
-                      className="w-7 h-7 bg-[#252220] border border-[#2E2B25] text-[#7A7268] rounded-[3px] flex items-center justify-center text-[0.75rem] hover:border-[#8B6420] hover:text-[#C8922A] transition-all"
+                      className="w-7 h-7 bg-[#252220] border border-[#2E2B25] text-[#7A7268] rounded-[3px] flex items-center justify-center text-[0.75rem] hover:border-[#A81C1C] hover:text-[#D4A017] transition-all"
                       title="Modifier">
                       ✎
                     </Link>
@@ -94,7 +94,7 @@ export default async function MembresPage() {
         </table>
         {members.length === 0 && (
           <div className="py-16 text-center font-mono text-[0.78rem] text-[#4A4640]">
-            Aucun membre · <Link href="/admin/ajouter" className="text-[#C8922A] hover:underline">Ajouter le premier</Link>
+            Aucun membre · <Link href="/admin/ajouter" className="text-[#D4A017] hover:underline">Ajouter le premier</Link>
           </div>
         )}
       </div>

@@ -22,6 +22,14 @@ const config: Config = {
           light: '#C8A882',
           line: '#C8B89A',
         },
+        cameroon: {
+          black: '#171210',
+          red: '#A81C1C',
+          gold: '#D4A017',
+          goldLight: '#E8B923',
+          indigo: '#1F3A63',
+          green: '#2F5233',
+        },
         admin: {
           bg: '#0E0D0B',
           surf: '#161410',

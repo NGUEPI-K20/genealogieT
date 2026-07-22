@@ -44,7 +44,7 @@ export default function PersonPanel({ person, relatedPeople, allRelations, onClo
           <div className="px-9 pt-10 pb-7 border-b border-white/10 relative">
             <button
               onClick={onClose}
-              className="absolute top-6 right-6 w-8 h-8 rounded-full border border-[#C8A882]/30 flex items-center justify-center text-sm text-[#F5F0E8] hover:bg-[#C8A882]/10 hover:border-[#C8A882] transition-all"
+              className="absolute top-6 right-6 w-8 h-8 rounded-full border border-[#D4A017]/30 flex items-center justify-center text-sm text-[#F5F0E8] hover:bg-[#D4A017]/10 hover:border-[#D4A017] transition-all"
             >
               ✕
             </button>
@@ -58,16 +58,16 @@ export default function PersonPanel({ person, relatedPeople, allRelations, onClo
 
             <h2 className="font-playfair text-[1.4rem] font-semibold leading-tight mb-1">
               {person.first_name}{' '}
-              <em className="font-normal not-italic text-[#C8A882]">
+              <em className="font-normal not-italic text-[#D4A017]">
                 {person.birth_name ? `née ${person.birth_name}` : person.last_name}
               </em>
             </h2>
 
-            <p className="text-sm text-[#C8A882] tracking-wide mb-0.5">
+            <p className="text-sm text-[#D4A017] tracking-wide mb-0.5">
               {person.birth_year}{person.death_year ? ` — ${person.death_year}` : ' — présent'}
             </p>
             {person.current_place && (
-              <p className="text-xs text-[#C8A882]/60 italic">{person.current_place}</p>
+              <p className="text-xs text-[#D4A017]/60 italic">{person.current_place}</p>
             )}
           </div>
 
@@ -76,7 +76,7 @@ export default function PersonPanel({ person, relatedPeople, allRelations, onClo
             {/* Bio */}
             {person.bio && (
               <div>
-                <p className="text-[0.6rem] tracking-[0.25em] uppercase text-[#C8A882] mb-2.5 pb-2 border-b border-white/10">
+                <p className="text-[0.6rem] tracking-[0.25em] uppercase text-[#D4A017] mb-2.5 pb-2 border-b border-white/10">
                   Biographie
                 </p>
                 <p className="text-[0.85rem] leading-7 text-[#F5F0E8]/75 italic">{person.bio}</p>
@@ -85,24 +85,24 @@ export default function PersonPanel({ person, relatedPeople, allRelations, onClo
 
             {/* État civil */}
             <div>
-              <p className="text-[0.6rem] tracking-[0.25em] uppercase text-[#C8A882] mb-2.5 pb-2 border-b border-white/10">
+              <p className="text-[0.6rem] tracking-[0.25em] uppercase text-[#D4A017] mb-2.5 pb-2 border-b border-white/10">
                 État civil
               </p>
               <div className="space-y-2">
                 {person.profession && (
                   <div className="flex justify-between text-sm">
-                    <span className="text-[#C8A882]/50 text-[0.7rem] tracking-wide">Profession</span>
+                    <span className="text-[#D4A017]/50 text-[0.7rem] tracking-wide">Profession</span>
                     <span className="font-playfair text-[#F5F0E8]">{person.profession}</span>
                   </div>
                 )}
                 {person.marital_status && (
                   <div className="flex justify-between text-sm">
-                    <span className="text-[#C8A882]/50 text-[0.7rem] tracking-wide">Situation</span>
+                    <span className="text-[#D4A017]/50 text-[0.7rem] tracking-wide">Situation</span>
                     <span className="font-playfair text-[#F5F0E8]">{person.marital_status}</span>
                   </div>
                 )}
                 <div className="flex justify-between text-sm">
-                  <span className="text-[#C8A882]/50 text-[0.7rem] tracking-wide">Génération</span>
+                  <span className="text-[#D4A017]/50 text-[0.7rem] tracking-wide">Génération</span>
                   <span className="font-playfair text-[#F5F0E8]">
                     {['','I','II','III','IV','V'][person.generation]}
                   </span>
@@ -113,7 +113,7 @@ export default function PersonPanel({ person, relatedPeople, allRelations, onClo
             {/* Famille proche */}
             {relatedPeople.length > 0 && (
               <div>
-                <p className="text-[0.6rem] tracking-[0.25em] uppercase text-[#C8A882] mb-2.5 pb-2 border-b border-white/10">
+                <p className="text-[0.6rem] tracking-[0.25em] uppercase text-[#D4A017] mb-2.5 pb-2 border-b border-white/10">
                   Famille proche
                 </p>
                 <div className="space-y-2">
@@ -133,7 +133,7 @@ export default function PersonPanel({ person, relatedPeople, allRelations, onClo
                         <p className="font-playfair text-[#F5F0E8] text-[0.78rem] truncate">
                           {rel.first_name} {rel.last_name}
                         </p>
-                        <p className="text-[0.65rem] text-[#C8A882] italic">
+                        <p className="text-[0.65rem] text-[#D4A017] italic">
                           {getRelType(person, rel, allRelations)} · {rel.birth_year}
                         </p>
                       </div>

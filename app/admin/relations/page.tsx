@@ -63,7 +63,7 @@ export default async function RelationsPage() {
                 <tr key={r.id} className="hover:bg-[#1E1C18]">
                   <td className="px-4 py-3 border-b border-[#2E2B25]">
                     {a ? (
-                      <Link href={`/admin/ajouter?id=${a.id}`} className="font-playfair text-[#E8E0D0] text-sm hover:text-[#C8922A]">
+                      <Link href={`/admin/ajouter?id=${a.id}`} className="font-playfair text-[#E8E0D0] text-sm hover:text-[#D4A017]">
                         {a.first_name} {a.last_name}
                       </Link>
                     ) : (
@@ -71,13 +71,13 @@ export default async function RelationsPage() {
                     )}
                   </td>
                   <td className="px-4 py-3 border-b border-[#2E2B25]">
-                    <span className="bg-[rgba(200,146,42,0.1)] text-[#C8922A] border border-[rgba(200,146,42,0.2)] font-mono text-[0.62rem] px-2 py-0.5 rounded-sm">
+                    <span className="bg-[rgba(200,146,42,0.1)] text-[#D4A017] border border-[rgba(200,146,42,0.2)] font-mono text-[0.62rem] px-2 py-0.5 rounded-sm">
                       {TYPE_LABELS[r.type]}
                     </span>
                   </td>
                   <td className="px-4 py-3 border-b border-[#2E2B25]">
                     {b ? (
-                      <Link href={`/admin/ajouter?id=${b.id}`} className="font-playfair text-[#E8E0D0] text-sm hover:text-[#C8922A]">
+                      <Link href={`/admin/ajouter?id=${b.id}`} className="font-playfair text-[#E8E0D0] text-sm hover:text-[#D4A017]">
                         {b.first_name} {b.last_name}
                       </Link>
                     ) : (

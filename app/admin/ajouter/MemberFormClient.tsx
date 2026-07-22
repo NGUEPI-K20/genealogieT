@@ -141,7 +141,7 @@ export default function MemberFormClient({ allPersons, editPerson, action }: Pro
               defaultValue={editPerson?.bio ?? ''}
               rows={5}
               placeholder="Quelques lignes sur la vie et les anecdotes…"
-              className="w-full bg-[#1E1C18] border border-[#2E2B25] text-[#E8E0D0] px-3.5 py-2.5 text-[0.82rem] rounded-[3px] outline-none focus:border-[#8B6420] focus:shadow-[0_0_0_3px_rgba(200,146,42,0.12)] resize-y placeholder:text-[#4A4640] leading-relaxed"
+              className="w-full bg-[#1E1C18] border border-[#2E2B25] text-[#E8E0D0] px-3.5 py-2.5 text-[0.82rem] rounded-[3px] outline-none focus:border-[#A81C1C] focus:shadow-[0_0_0_3px_rgba(200,146,42,0.12)] resize-y placeholder:text-[#4A4640] leading-relaxed"
             />
           </div>
         </FormCard>
@@ -159,7 +159,7 @@ export default function MemberFormClient({ allPersons, editPerson, action }: Pro
                 </label>
                 <select
                   name="parent_id"
-                  className="w-full bg-[#1E1C18] border border-[#2E2B25] text-[#E8E0D0] px-3.5 py-2.5 text-[0.82rem] rounded-[3px] outline-none focus:border-[#8B6420] cursor-pointer"
+                  className="w-full bg-[#1E1C18] border border-[#2E2B25] text-[#E8E0D0] px-3.5 py-2.5 text-[0.82rem] rounded-[3px] outline-none focus:border-[#A81C1C] cursor-pointer"
                 >
                   <option value="">— Aucun —</option>
                   {allPersons.map(p => (
@@ -176,7 +176,7 @@ export default function MemberFormClient({ allPersons, editPerson, action }: Pro
                 </label>
                 <select
                   name="spouse_id"
-                  className="w-full bg-[#1E1C18] border border-[#2E2B25] text-[#E8E0D0] px-3.5 py-2.5 text-[0.82rem] rounded-[3px] outline-none focus:border-[#8B6420] cursor-pointer"
+                  className="w-full bg-[#1E1C18] border border-[#2E2B25] text-[#E8E0D0] px-3.5 py-2.5 text-[0.82rem] rounded-[3px] outline-none focus:border-[#A81C1C] cursor-pointer"
                 >
                   <option value="">— Aucun —</option>
                   {allPersons.map(p => (
@@ -201,7 +201,7 @@ export default function MemberFormClient({ allPersons, editPerson, action }: Pro
           <button
             type="submit"
             disabled={isPending}
-            className="bg-[#C8922A] text-[#0E0D0B] px-5 py-2.5 font-playfair text-[0.85rem] rounded-[3px] hover:bg-[#D9A040] transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+            className="bg-[#D4A017] text-[#0E0D0B] px-5 py-2.5 font-playfair text-[0.85rem] rounded-[3px] hover:bg-[#E8B923] transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
           >
             {isPending
               ? <><span className="animate-spin">⟳</span> Enregistrement…</>
@@ -232,7 +232,7 @@ export default function MemberFormClient({ allPersons, editPerson, action }: Pro
         {/* Aperçu carte */}
         <div className="bg-[#161410] border border-[#2E2B25] rounded-[3px] overflow-hidden">
           <div className="px-4 py-3.5 border-b border-[#2E2B25] flex items-center gap-2 font-playfair text-[0.88rem] text-[#E8E0D0]">
-            <span className="text-[#C8922A] text-[0.8rem]">⊞</span> Aperçu
+            <span className="text-[#D4A017] text-[0.8rem]">⊞</span> Aperçu
           </div>
           <div className="p-4">
             {/* Position dans l'arbre */}
@@ -243,7 +243,7 @@ export default function MemberFormClient({ allPersons, editPerson, action }: Pro
                 {genNum > 1 ? `Génération ${ROMANS[genNum - 1]}` : '—'}
               </div>
               <div className="w-px h-4 bg-[#3A3630] mx-auto" />
-              <div className="text-[0.72rem] text-[#C8922A] bg-[rgba(200,146,42,0.08)] border border-[rgba(200,146,42,0.2)] rounded-[3px] py-1.5 my-1 font-medium">
+              <div className="text-[0.72rem] text-[#D4A017] bg-[rgba(200,146,42,0.08)] border border-[rgba(200,146,42,0.2)] rounded-[3px] py-1.5 my-1 font-medium">
                 {previewName}{genNum > 0 ? ` · Gen. ${ROMANS[genNum]}` : ''}
               </div>
               <div className="w-px h-4 bg-[#3A3630] mx-auto" />
@@ -256,7 +256,7 @@ export default function MemberFormClient({ allPersons, editPerson, action }: Pro
             <div className="bg-[#F5F0E8] border border-[#C8B89A] rounded-[4px] p-4 text-center">
               <div
                 className="w-12 h-12 rounded-full flex items-center justify-center font-playfair text-[#F5F0E8] text-lg mx-auto mb-2"
-                style={{ background: '#5C3D2E' }}
+                style={{ background: '#A81C1C' }}
               >
                 {initials}
               </div>
@@ -267,7 +267,7 @@ export default function MemberFormClient({ allPersons, editPerson, action }: Pro
                 {birth || '—'} — {editPerson?.death_year ?? 'présent'}
               </p>
               {genNum > 0 && (
-                <p className="text-[0.6rem] text-[#8B4513] mt-1.5 uppercase tracking-widest italic">
+                <p className="text-[0.6rem] text-[#A81C1C] mt-1.5 uppercase tracking-widest italic">
                   Génération {ROMANS[genNum]}
                 </p>
               )}
@@ -278,7 +278,7 @@ export default function MemberFormClient({ allPersons, editPerson, action }: Pro
         {/* Upload photo */}
         <div className="bg-[#161410] border border-[#2E2B25] rounded-[3px] overflow-hidden">
           <div className="px-4 py-3.5 border-b border-[#2E2B25] flex items-center gap-2 font-playfair text-[0.88rem] text-[#E8E0D0]">
-            <span className="text-[#C8922A] text-[0.8rem]">◻</span> Photo
+            <span className="text-[#D4A017] text-[0.8rem]">◻</span> Photo
           </div>
           <div className="p-4">
             {editPerson?.photo_url && (
@@ -292,7 +292,7 @@ export default function MemberFormClient({ allPersons, editPerson, action }: Pro
                 <p className="font-mono text-[0.65rem] text-[#4A8B5A]">✓ Photo existante</p>
               </div>
             )}
-            <label className="block border border-dashed border-[#3A3630] rounded-[3px] py-6 px-5 text-center cursor-pointer hover:border-[#8B6420] hover:bg-[rgba(200,146,42,0.04)] transition-all bg-[#1E1C18]">
+            <label className="block border border-dashed border-[#3A3630] rounded-[3px] py-6 px-5 text-center cursor-pointer hover:border-[#A81C1C] hover:bg-[rgba(200,146,42,0.04)] transition-all bg-[#1E1C18]">
               <input type="file" name="photo" accept="image/jpeg,image/png,image/webp" className="hidden" />
               <p className="text-xl mb-1.5">↑</p>
               <p className="text-[0.75rem] text-[#7A7268] mb-1">
@@ -340,7 +340,7 @@ function FormCard({ icon, title, children }: {
   return (
     <div className="bg-[#161410] border border-[#2E2B25] rounded-[3px] overflow-hidden mb-5">
       <div className="px-5 py-3.5 border-b border-[#2E2B25] flex items-center gap-2 font-playfair text-[0.88rem] text-[#E8E0D0]">
-        <span className="text-[#C8922A] text-[0.8rem]">{icon}</span>
+        <span className="text-[#D4A017] text-[0.8rem]">{icon}</span>
         {title}
       </div>
       <div className="p-5 space-y-4">
@@ -369,7 +369,7 @@ function Field({ name, label, defaultValue, placeholder, type = 'text', onChange
         defaultValue={defaultValue}
         placeholder={placeholder}
         onChange={e => onChange?.(e.target.value)}
-        className="w-full bg-[#1E1C18] border border-[#2E2B25] text-[#E8E0D0] px-3.5 py-2.5 text-[0.82rem] rounded-[3px] outline-none focus:border-[#8B6420] focus:shadow-[0_0_0_3px_rgba(200,146,42,0.12)] transition-all placeholder:text-[#4A4640]"
+        className="w-full bg-[#1E1C18] border border-[#2E2B25] text-[#E8E0D0] px-3.5 py-2.5 text-[0.82rem] rounded-[3px] outline-none focus:border-[#A81C1C] focus:shadow-[0_0_0_3px_rgba(200,146,42,0.12)] transition-all placeholder:text-[#4A4640]"
       />
     </div>
   )
@@ -391,7 +391,7 @@ function SelectField({ name, label, defaultValue, children, onChange }: {
         name={name}
         defaultValue={defaultValue}
         onChange={e => onChange?.(e.target.value)}
-        className="w-full bg-[#1E1C18] border border-[#2E2B25] text-[#E8E0D0] px-3.5 py-2.5 text-[0.82rem] rounded-[3px] outline-none focus:border-[#8B6420] cursor-pointer"
+        className="w-full bg-[#1E1C18] border border-[#2E2B25] text-[#E8E0D0] px-3.5 py-2.5 text-[0.82rem] rounded-[3px] outline-none focus:border-[#A81C1C] cursor-pointer"
       >
         {children}
       </select>
